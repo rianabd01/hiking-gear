@@ -1,9 +1,29 @@
+# Gradle & Kotlin
 .gradle/
+.kotlin/
 build/
 **/build/
+.gradle-test-kit/
+local.properties
+*.hprof
+hs_err_pid*
+
+# IDEs & OS
 .idea/
 *.iml
-local.properties
 .DS_Store
+
+# Xcode / iOS
 iosApp/iosApp.xcodeproj/xcuserdata/
 iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/
+*.xcuserstate
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+.swiftpm/
+
+# Graphify
+graphify-out/
