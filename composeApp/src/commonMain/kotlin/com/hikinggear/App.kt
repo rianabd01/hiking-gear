@@ -728,44 +728,39 @@ private fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .navigationBarsPadding()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .navigationBarsPadding(),
         ) {
-            Card(
-                onClick = { showLanguageDialog = true },
-                modifier = Modifier.fillMaxWidth(),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { showLanguageDialog = true }
+                    .padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
-                    Column(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(2.dp),
-                    ) {
-                        Text(
-                            text = strings.settingsLanguageSection,
-                            style = MaterialTheme.typography.bodyLarge,
-                            fontWeight = FontWeight.SemiBold,
-                        )
-                        Text(
-                            text = strings.settingsLanguageHint,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
                     Text(
-                        text = language.displayName,
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = strings.settingsLanguageSection,
+                        style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.SemiBold,
-                        color = STABILO_YELLOW,
+                    )
+                    Text(
+                        text = strings.settingsLanguageHint,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
+                Text(
+                    text = language.displayName,
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = STABILO_YELLOW,
+                )
             }
+            HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.outline)
         }
     }
 
@@ -1034,7 +1029,7 @@ private fun SavedListScreen(
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
+    Column(modifier = Modifier.fillMaxSize()) {
         if (activeSession != null || statusMessage != null) {
             Spacer(Modifier.height(10.dp))
         }
@@ -1044,7 +1039,7 @@ private fun SavedListScreen(
             val km = (activeSession.totalDistanceMeters / 100.0).roundToInt() / 10.0
             Card(
                 onClick = onResumeActiveMap,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = if (isRec) Color(0xFF222A12) else Color(0xFF2B2412),
                 ),
@@ -1075,6 +1070,7 @@ private fun SavedListScreen(
         if (statusMessage != null) {
             Text(
                 text = statusMessage,
+                modifier = Modifier.padding(horizontal = 16.dp),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodySmall,
             )
@@ -1082,7 +1078,10 @@ private fun SavedListScreen(
         }
 
         if (entries.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 24.dp),
+                contentAlignment = Alignment.Center,
+            ) {
                 Text(
                     text = emptyMessage,
                     textAlign = TextAlign.Center,
@@ -1095,17 +1094,17 @@ private fun SavedListScreen(
         LazyColumn(
             state = listState,
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(top = 12.dp, bottom = 84.dp),
+            contentPadding = PaddingValues(bottom = 84.dp),
         ) {
             items(pageItems, key = { it.id }) { entry ->
-                Card(
-                    onClick = { onOpenEntry(entry) },
-                    modifier = Modifier.fillMaxWidth(),
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onOpenEntry(entry) },
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth()
-                            .padding(start = 14.dp, top = 10.dp, bottom = 10.dp, end = 4.dp),
+                            .padding(start = 16.dp, top = 12.dp, bottom = 12.dp, end = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
@@ -1188,6 +1187,7 @@ private fun SavedListScreen(
                             }
                         }
                     }
+                    HorizontalDivider(thickness = 1.dp, color = MaterialTheme.colorScheme.outline)
                 }
             }
             if (hasMore) {
