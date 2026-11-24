@@ -1,0 +1,93 @@
+[
+  {
+    "label": "KMP: Run JVM Tests",
+    "command": "./gradlew :composeApp:jvmTest --no-daemon",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "KMP: Run iOS Simulator Tests",
+    "command": "./gradlew :composeApp:iosSimulatorArm64Test --no-daemon",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "KMP: Run All Tests (JVM + iOS Sim)",
+    "command": "./gradlew :composeApp:jvmTest :composeApp:iosSimulatorArm64Test --no-daemon",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "KMP: Compile All Targets (JVM + iOS)",
+    "command": "./gradlew :composeApp:jvmMainClasses :composeApp:compileKotlinIosSimulatorArm64 :composeApp:compileKotlinIosArm64 --no-daemon",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "iOS: Build & Launch Simulator (iPhone 17)",
+    "command": "xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' build && (xcrun simctl boot 'iPhone 17' 2>/dev/null || true) && APP_PATH=$(xcodebuild -project iosApp/iosApp.xcodeproj -scheme iosApp -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 17' -showBuildSettings | awk -F' = ' '/TARGET_BUILD_DIR/{dir=$2} /FULL_PRODUCT_NAME/{name=$2} END{print dir\"/\"name}') && xcrun simctl install booted \"$APP_PATH\" && xcrun simctl launch booted com.hikinggearrianiphone2.ios",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+  {
+    "label": "KMP: Test $ZED_CUSTOM_kotlin_class_name.$ZED_CUSTOM_kotlin_method_name (JVM)",
+    "command": "outer=\"${ZED_CUSTOM_kotlin_outer_class_name:}\"; method=$(printf '%s' \"$KOTLIN_METHOD\" | tr -d '`'); sep='$'; if [ -n \"$outer\" ]; then c=\"$outer${sep}$KOTLIN_CLS\"; else c=\"$KOTLIN_CLS\"; fi; ./gradlew :composeApp:jvmTest --tests \"$KOTLIN_PKG.$c.$method\" --no-daemon",
+    "tags": ["kotlin-test", "kotlin-test-nested"],
+    "use_new_terminal": false,
+    "reveal": "always",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "KOTLIN_PKG": "$ZED_CUSTOM_kotlin_package_name",
+      "KOTLIN_CLS": "$ZED_CUSTOM_kotlin_class_name",
+      "KOTLIN_METHOD": "$ZED_CUSTOM_kotlin_method_name",
+    },
+    "shell": { "with_arguments": { "program": "/bin/sh", "args": ["-c"] } },
+  },
+  {
+    "label": "KMP: Test $ZED_CUSTOM_kotlin_class_name (JVM)",
+    "command": "outer=\"${ZED_CUSTOM_kotlin_outer_class_name:}\"; sep='$'; if [ -n \"$outer\" ]; then c=\"$outer${sep}$KOTLIN_CLS\"; else c=\"$KOTLIN_CLS\"; fi; ./gradlew :composeApp:jvmTest --tests \"$KOTLIN_PKG.$c\" --no-daemon",
+    "tags": ["kotlin-test-class", "kotlin-test-class-nested"],
+    "use_new_terminal": false,
+    "reveal": "always",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "KOTLIN_PKG": "$ZED_CUSTOM_kotlin_package_name",
+      "KOTLIN_CLS": "$ZED_CUSTOM_kotlin_class_name",
+    },
+    "shell": { "with_arguments": { "program": "/bin/sh", "args": ["-c"] } },
+  },
+  {
+    "label": "Gradle: Clean",
+    "command": "./gradlew clean --no-daemon",
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+    },
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always",
+  },
+]

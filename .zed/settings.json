@@ -1,0 +1,31 @@
+{
+  "languages": {
+    "Kotlin": {
+      "tab_size": 4,
+      "hard_tabs": false,
+      "preferred_line_length": 120,
+      "format_on_save": "on",
+      "formatter": "language_server",
+      "language_servers": ["kotlin-lsp", "!kotlin-language-server", "..."]
+    },
+    "Gradle KTS": {
+      "tab_size": 4,
+      "hard_tabs": false,
+      "preferred_line_length": 120
+    }
+  },
+  "terminal": {
+    "env": {
+      "JAVA_HOME": "/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home",
+      "DEVELOPER_DIR": "/Applications/Xcode.app/Contents/Developer"
+    }
+  },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.gradle",
+    "**/.kotlin",
+    "**/build",
+    "iosApp/Vendor/MapLibre/MapLibre.xcframework",
+    "**/xcuserdata"
+  ]
+}
